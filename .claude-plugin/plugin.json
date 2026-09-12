@@ -1,0 +1,9 @@
+{
+  "name": "home-assistant",
+  "description": "Home Assistant skill: read and control lights, locks, thermostats, and any entity through the HA REST API with a long-lived token.",
+  "version": "0.1.0",
+  "author": { "name": "trianglegrrl" },
+  "repository": "https://github.com/trianglegrrl/home-assistant-skill",
+  "license": "MIT",
+  "keywords": ["home-assistant", "smart-home", "claude-code-skill"]
+}
