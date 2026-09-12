@@ -31,8 +31,8 @@ ha_resolve() {
 import json, os, sys
 q=os.environ["HA_Q"].lower(); d=os.environ["HA_D"]
 ents=[e for e in json.load(sys.stdin) if not d or e["entity_id"].startswith(d+".")]
-exact=[e for e in ents if e["entity_id"]==q]
-if exact: print(exact[0]["entity_id"]); sys.exit(0)
+exact=[e for e in ents if e["entity_id"]==q or (e["attributes"].get("friendly_name") or "").lower()==q]
+if len(exact)==1: print(exact[0]["entity_id"]); sys.exit(0)
 hits=[e for e in ents if q in e["entity_id"].lower() or q in (e["attributes"].get("friendly_name") or "").lower()]
 if len(hits)==1: print(hits[0]["entity_id"]); sys.exit(0)
 msg="No entity matches" if not hits else "Ambiguous entity"
