@@ -36,6 +36,6 @@ if exact: print(exact[0]["entity_id"]); sys.exit(0)
 hits=[e for e in ents if q in e["entity_id"].lower() or q in (e["attributes"].get("friendly_name") or "").lower()]
 if len(hits)==1: print(hits[0]["entity_id"]); sys.exit(0)
 msg="No entity matches" if not hits else "Ambiguous entity"
-opts=", ".join(f"{e[\"entity_id\"]} ({e[\"attributes\"].get(\"friendly_name\",\"\")})" for e in (hits or ents)[:25])
-print(f"ERROR: {msg} {q!r}. Options: {opts}", file=sys.stderr); sys.exit(1)'
+opts=", ".join("%s (%s)" % (e["entity_id"], e["attributes"].get("friendly_name","")) for e in (hits or ents)[:25])
+print("ERROR: %s %r. Options: %s" % (msg, q, opts), file=sys.stderr); sys.exit(1)'
 }

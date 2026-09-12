@@ -19,5 +19,5 @@ for e in sorted(json.load(sys.stdin), key=lambda e:e["entity_id"]):
     rows.append({"entity_id":e["entity_id"],"state":e["state"],"name":e["attributes"].get("friendly_name",""),"unit":e["attributes"].get("unit_of_measurement","")})
 if j: print(json.dumps(rows, indent=1))
 else:
-    for r in rows: print(f"{r[\"entity_id\"]:<50} {r[\"state\"]:<16}{r[\"unit\"]:<5} {r[\"name\"]}")
+    for r in rows: print("%-50s %-16s%-5s %s" % (r["entity_id"], r["state"], r["unit"], r["name"]))
     if not rows: print("(no matching entities)")'

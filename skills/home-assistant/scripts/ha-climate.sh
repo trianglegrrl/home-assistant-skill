@@ -18,9 +18,11 @@ ID="$(ha_resolve "$Q" climate)"
 ha_get "states/$ID" | python3 -c '
 import json, sys
 e=json.load(sys.stdin); a=e["attributes"]; u=a.get("temperature_unit","") or ""
-def t(k): v=a.get(k); return f"{v}{u}" if v is not None else "-"
-print(f"{a.get(\"friendly_name\",e[\"entity_id\"])}: mode {e[\"state\"]}, currently {t(\"current_temperature\")}, target {t(\"temperature\")}"
-      + (f" (range {t(\"target_temp_low\")}..{t(\"target_temp_high\")})" if a.get("target_temp_low") is not None else "")
-      + (f", humidity {a[\"current_humidity\"]}%" if a.get("current_humidity") is not None else "")
-      + (f", action: {a[\"hvac_action\"]}" if a.get("hvac_action") else "")
-      + (f", preset: {a[\"preset_mode\"]}" if a.get("preset_mode") else ""))'
+def t(k):
+    v=a.get(k); return "%s%s" % (v,u) if v is not None else "-"
+line="%s: mode %s, currently %s, target %s" % (a.get("friendly_name", e["entity_id"]), e["state"], t("current_temperature"), t("temperature"))
+if a.get("target_temp_low") is not None: line+=" (range %s..%s)" % (t("target_temp_low"), t("target_temp_high"))
+if a.get("current_humidity") is not None: line+=", humidity %s%%" % a["current_humidity"]
+if a.get("hvac_action"): line+=", action: %s" % a["hvac_action"]
+if a.get("preset_mode"): line+=", preset: %s" % a["preset_mode"]
+print(line)'

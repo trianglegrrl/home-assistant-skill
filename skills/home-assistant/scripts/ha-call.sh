@@ -21,4 +21,4 @@ ha_post "services/$DOMAIN/$SERVICE" "$DATA" | python3 -c '
 import json, sys
 changed=json.load(sys.stdin)
 if not changed: print("Service accepted; no entity state changed (this is normal for some services)."); sys.exit()
-for e in changed: print(f"{e[\"entity_id\"]}: {e[\"state\"]}  ({e[\"attributes\"].get(\"friendly_name\",\"\")})")'
+for e in changed: print("%s: %s  (%s)" % (e["entity_id"], e["state"], e["attributes"].get("friendly_name","")))'
